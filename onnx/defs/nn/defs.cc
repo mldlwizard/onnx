@@ -2493,7 +2493,7 @@ ONNX_OPERATOR_SET_SCHEMA(
             {// nodes: {outputs, op, inputs, attributes}
              FunctionBodyHelper::Const<float>("scale", 2.0f),
              {{"OUTPUT"},"Mul",{"scale","A"}}
-             {{"FINAL"},"Add",{"OUTPUT","B"}}})));
+             {{"FINAL"},"Add",{"OUTPUT","B"}})));
              
 
 } // namespace ONNX_NAMESPACE
