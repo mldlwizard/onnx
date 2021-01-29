@@ -2492,7 +2492,7 @@ ONNX_OPERATOR_SET_SCHEMA(
         .FunctionBody(FunctionBodyHelper::BuildNodes(
             {// nodes: {outputs, op, inputs, attributes}
              FunctionBodyHelper::Const<float>("scale", 2.0f),
-             {{"OUTPUT"},"Mul",{"scale","A"}}
+             {{"OUTPUT"},"Mul",{"scale","A"}},
              {{"FINAL"},"Add",{"OUTPUT","B"}}})));
              
 
