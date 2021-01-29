@@ -2458,6 +2458,42 @@ ONNX_OPERATOR_SET_SCHEMA(
              {{"X-EX"},"Sub",{"X","EX"}},
              {{"OP"},"Div",{"X-EX","SQRTEX"}},
              {{"OUTPUT"},"Mul",{"scale","OP"}}})));
+    
+static const char* TCSadd_ver1_doc = R"DOC(
+      An EdgeAI test Function: Perform random calculation 
+      on the input tensor A and B using formula: <br/> ``` Y = (2*A)+(B) ```
+)DOC";
+
+
+ONNX_OPERATOR_SET_SCHEMA(
+    TCS,
+    13,
+    OpSchema()
+        .SetDoc(TCSadd_ver1_doc)
+        .Input(
+            0,
+            "A",
+            "Input tensor",
+            "T")
+        .Input(
+            1,
+            "B",
+            "Input tensor",
+            "T")
+        .Output(
+            0,
+            "Y",
+            "Output tensor",
+            "T")
+        .TypeConstraint(
+            "T",
+            {"tensor(float32)"},
+            "Constrain input and output types to all numeric tensors.")
+        .FunctionBody(FunctionBodyHelper::BuildNodes(
+            {// nodes: {outputs, op, inputs, attributes}
+             FunctionBodyHelper::Const<float>("scale", 2.0f),
+             {{"OUTPUT"},"Mul",{"scale","A"}}
+             {{"FINAL"},"Add",{"OUTPUT","B"}}})));
              
 
 } // namespace ONNX_NAMESPACE
