@@ -2467,7 +2467,7 @@ static const char* TCSadd_ver1_doc = R"DOC(
 
 ONNX_OPERATOR_SET_SCHEMA(
     TCS,
-    13,
+    11,
     OpSchema()
         .SetDoc(TCSadd_ver1_doc)
         .Input(
