@@ -588,6 +588,7 @@ class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 11, DepthToSpace);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 11, Equal);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 11, Constant);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 11, DynamicQuantizeLinear);
+class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 11, TCS);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 11, DQL);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 11, GatherElements);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 11, ScatterElements);
@@ -660,6 +661,8 @@ class OpSet_Onnx_ver11 {
            Onnx, 11, DynamicQuantizeLinear)>());
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(
            Onnx, 11, DQL)>());
+    fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(
+           Onnx, 11, TCS)>());
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(
            Onnx, 11, GatherElements)>());
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(
