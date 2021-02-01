@@ -2,6 +2,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// Copyright (c) ONNX Project Contributors.
+// Licensed under the MIT license.
 
 #include <algorithm>
 #include <functional>
@@ -460,9 +462,9 @@ ONNX_OPERATOR_SET_SCHEMA(
     14,
     OpSchema()
         .SetDoc(Relu_ver14_doc)
-        .Input(0,
-            "X",
-            "Input tensor",
+        .Input(0, 
+            "X", 
+            "Input tensor", 
             "T",
             OpSchema::Single,
             true,
@@ -2710,6 +2712,56 @@ ONNX_OPERATOR_SET_SCHEMA(
             }
           }
         }));
+
+
+
+
+static const char* TestOp_doc = R"DOC(
+Created for testing
+)DOC";
+
+ONNX_OPERATOR_SET_SCHEMA(
+    TestOp,
+    10,
+    OpSchema()
+        .SetDoc(TestOp_doc)
+        .Input(0,
+            "X",
+            "Input tensor",
+            "T",
+            OpSchema::Single,
+            true,
+            1,
+            OpSchema::Differentiable)
+        .Output(0,
+            "Y",
+            "Output tensor",
+            "T",
+            OpSchema::Single,
+            true,
+            1,
+            OpSchema::Differentiable)
+        .TypeConstraint(
+            "T",
+            {"tensor(float)",
+             "tensor(int32)",
+             "tensor(int8)",
+             "tensor(int16)",
+             "tensor(int64)",
+             "tensor(float16)",
+             "tensor(double)",
+             "tensor(bfloat16)"},
+            "Constrain input and output types to signed numeric tensors.")
+        .TypeAndShapeInferenceFunction(propagateShapeAndTypeFromFirstInput));
+
+
+
+
+
+
+
+
+
 
 static const char* NegativeLogLikelihoodLoss_ver13_doc = R"DOC(
 A NegativeLogLikelihoodLoss operator computes (weighted) negative log likelihood loss.
