@@ -3352,7 +3352,7 @@ ONNX_OPERATOR_SET_SCHEMA(
            {{"B_ADD"},"Add", {"X", "increment"}},
            {{"MAX"}, "Clip", {"B_ADD","min","max"}},
            {{"DIV"}, "Div",{"MIN","min"}},
-           {{"OUT"}, "Mul",{"X","DIV"}}))
+           {{"OUT"}, "Mul",{"X","DIV"}}}))
         .TypeAndShapeInferenceFunction(propagateShapeAndTypeFromFirstInput));
   
 static const char* Einsum_ver12_doc = R"DOC(
