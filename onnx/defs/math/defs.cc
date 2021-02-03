@@ -3347,8 +3347,8 @@ ONNX_OPERATOR_SET_SCHEMA(
         .FunctionBody(FunctionBodyHelper::BuildNodes(
            {// nodes: {outputs, op, inputs, attributes}
            FunctionBodyHelper::Const<float>("increment", 3.0f),
-           FunctionBodyHelper::Const<float>("max", 0.0f),
-           FunctionBodyHelper::Const<float>("min", 6.0f),
+           FunctionBodyHelper::Const<float>("max", 6.0f),
+           FunctionBodyHelper::Const<float>("min", 0.0f),
            {{"B_ADD"},"Add", {"X", "increment"}},
            {{"MAX"}, "Clip", {"B_ADD","min","max"}},
            {{"DIV"}, "Div",{"MIN","min"}},
