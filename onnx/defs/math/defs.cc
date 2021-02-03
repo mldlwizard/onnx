@@ -3306,55 +3306,6 @@ void einsumRankInference(
   }
 }
 
-static const char* HardSwish_ver14_doc = R"DOC(
-HardSwish takes one input data (Tensor<T>) and produces one output data
-(Tensor<T>) where function, y = x*(min(max(0,x+3),6))/6, is applied to
-the tensor elementwise.
-)DOC";
-
-ONNX_OPERATOR_SET_SCHEMA(
-    HardSwish,
-    11,
-    OpSchema()
-        .SetDoc(HardSwish_ver14_doc)
-        .Input(0, 
-            "X", 
-            "Input tensor", 
-            "T",
-            OpSchema::Single,
-            true,
-            1,
-            OpSchema::Differentiable)
-        .Output(0,
-            "Y",
-            "Output tensor",
-            "T",
-            OpSchema::Single,
-            true,
-            1,
-            OpSchema::Differentiable)
-        .TypeConstraint(
-            "T",
-            {"tensor(float)",
-             "tensor(int32)",
-             "tensor(int8)",
-             "tensor(int16)",
-             "tensor(int64)",
-             "tensor(float16)",
-             "tensor(double)",
-             "tensor(bfloat16)"},
-            "Constrain input and output types to signed numeric tensors.")
-        .FunctionBody(FunctionBodyHelper::BuildNodes(
-           {// nodes: {outputs, op, inputs, attributes}
-           FunctionBodyHelper::Const<float>("increment", 3.0f),
-           FunctionBodyHelper::Const<float>("max", 6.0f),
-           FunctionBodyHelper::Const<float>("min", 0.0f),
-           {{"B_ADD"},"Add", {"X", "increment"}},
-           {{"MAX"}, "Clip", {"B_ADD","min","max"}},
-           {{"DIV"}, "Div",{"MIN","min"}},
-           {{"OUT"}, "Mul",{"X","DIV"}})));
-        .TypeAndShapeInferenceFunction(propagateShapeAndTypeFromFirstInput));
-  
 static const char* Einsum_ver12_doc = R"DOC(
 An einsum of the form ```term1, term2 -> output-term``` produces an output tensor using the following equation
 
