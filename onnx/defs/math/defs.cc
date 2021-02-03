@@ -3347,12 +3347,11 @@ ONNX_OPERATOR_SET_SCHEMA(
         .FunctionBody(FunctionBodyHelper::BuildNodes(
            {// nodes: {outputs, op, inputs, attributes}
            FunctionBodyHelper::Const<float>("increment", 3.0f),
-           FunctionBodyHelper::Const<float>("max_compare", 0.0f),
-           FunctionBodyHelper::Const<float>("min_compare", 6.0f),
+           FunctionBodyHelper::Const<float>("max", 0.0f),
+           FunctionBodyHelper::Const<float>("min", 6.0f),
            {{"B_ADD"},"Add", {"X", "increment"}},
-           {{"MAX"}, "Max", {"B_ADD","max_compare"}},
-           {{"MIN"}, "Min", {"MAX", "min_compare"}},
-           {{"DIV"}, "Div",{"MIN","min_compare"}},
+           {{"MAX"}, "Clip", {"B_ADD","min","max"}},
+           {{"DIV"}, "Div",{"MIN","min"}},
            {{"OUT"}, "Mul",{"X","DIV"}})));
         .TypeAndShapeInferenceFunction(propagateShapeAndTypeFromFirstInput));
   
