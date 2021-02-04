@@ -3346,12 +3346,9 @@ ONNX_OPERATOR_SET_SCHEMA(
             "Constrain input and output types to signed numeric tensors.")
         .FunctionBody(FunctionBodyHelper::BuildNodes(
            {// nodes: {outputs, op, inputs, attributes}
-           FunctionBodyHelper::Const<float>("increment", 3.0f),
-           FunctionBodyHelper::Const<float>("max", 6.0f),
-           FunctionBodyHelper::Const<float>("min", 0.0f),
-           {{"B_ADD"},"Add", {"X", "increment"}},
-           {{"MAX"}, "Clip", {"B_ADD","min","max"}},
-           {{"DIV"}, "Div",{"MIN","min"}},
+           {{"B_ADD"},"Add", {"X", 3.0f}},
+           {{"CLIP"}, "Clip", {"B_ADD",0.0f,6.0f}},
+           {{"DIV"}, "Div",{"CLIP",6.0f}},
            {{"OUT"}, "Mul",{"X","DIV"}}}))
         .TypeAndShapeInferenceFunction(propagateShapeAndTypeFromFirstInput));
   
