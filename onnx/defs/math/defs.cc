@@ -3306,6 +3306,7 @@ void einsumRankInference(
   }
 }
 
+
 static const char* HardSwish_ver14_doc = R"DOC(
 HardSwish takes one input data (Tensor<T>) and produces one output data
 (Tensor<T>) where function, y = x*(min(max(0,x+3),6))/6, is applied to
@@ -3346,9 +3347,12 @@ ONNX_OPERATOR_SET_SCHEMA(
             "Constrain input and output types to signed numeric tensors.")
         .FunctionBody(FunctionBodyHelper::BuildNodes(
            {// nodes: {outputs, op, inputs, attributes}
-           {{"B_ADD"},"Add", {"X", 3.0f}},
-           {{"CLIP"}, "Clip", {"B_ADD",0.0f,6.0f}},
-           {{"DIV"}, "Div",{"CLIP",6.0f}},
+           FunctionBodyHelper::Const<float>("increment", 3.0f),
+           FunctionBodyHelper::Const<float>("max", 6.0f),
+           FunctionBodyHelper::Const<float>("min", 0.0f),
+           {{"B_ADD"},"Add", {"X", "increment"}},
+           {{"CLIP"}, "Clip", {"B_ADD","min","max"}},
+           {{"DIV"}, "Div",{"CLIP","min"}},
            {{"OUT"}, "Mul",{"X","DIV"}}}))
         .TypeAndShapeInferenceFunction(propagateShapeAndTypeFromFirstInput));
   
