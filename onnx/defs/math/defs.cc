@@ -312,6 +312,50 @@ Reciprocal takes one input data (Tensor<T>) and produces one output data
 (Tensor<T>) where the reciprocal is, y = 1/x, is applied to
 the tensor elementwise.
 )DOC";
+  
+static const char* mish_ver13_doc = R"DOC(
+Performs MISH Activation Function using the formula:
+``` x * tanh(ln(1+exp(x))) ```
+)DOC";
+
+ONNX_OPERATOR_SET_SCHEMA(
+Mish,
+12,
+OpSchema()
+.SetDoc(mish_ver13_doc)
+  .Input(
+            0,
+            "X",
+            "Input tensor",
+            "T",
+            OpSchema::Single,
+            true,
+            1,
+            OpSchema::Differentiable)
+        .Output(
+            0,
+            "Y",
+            "Output tensor",
+            "T",
+            OpSchema::Single,
+            true,
+            1,
+            OpSchema::Differentiable)
+   .TypeConstraint(
+       "T",
+       {"tensor(float16)", "tensor(float)", "tensor(double)"},
+       "Constrain input and output types to floating-point tensors.")
+
+   .FunctionBody(FunctionBodyHelper::BuildNodes(
+       {// nodes: {outputs, op, inputs, attributes}
+
+        FunctionBodyHelper::Const<float>("one", 1.0f),
+        {{"EXP_X"},"Exp",{"X"}},
+        {{"ONE-EXP-X"},"Add",{"one","EXP_X"}},
+        {{"LOGGER"},"Log",{"ONE-EXP-X"}},
+        {{"TANNER"}, "Tanh", {"LOGGER"}},
+        {{"Y"}, "Mul", {"X", "TANNER"}}}))
+    .TypeAndShapeInferenceFunction(propagateShapeAndTypeFromFirstInput));
 
 ONNX_OPERATOR_SET_SCHEMA(
     Reciprocal,
